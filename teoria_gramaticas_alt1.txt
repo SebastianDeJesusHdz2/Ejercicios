@@ -1,0 +1,303 @@
+Numero -> Digito //// numero produce digito
+las gramaticas estan compuestas por producciones y las producciones estan compuestas por simbolos
+
+Numero->Digito
+Numero->Numero Numero
+Digito->0
+Digito->1
+Digito->2
+Digito->3
+Digito->4
+Digito->5
+Digito->6
+Digito->7
+Digito->8
+Digito->9
+
+Ej.
+entrada: 434
+partir de el numero inicial "Numero", buscar producciones de numero, y elegir cual produccion utilizar.
+
+            Numero
+          |        |
+      Numero      Numero
+        |         |    |
+      Digito   Numero  Numero
+        |        |        |
+        4     Digito    Digito
+                |          |
+                3          4
+
+    Salida: 434
+
+Analisis Semántico.
+  Tiene dos tareas principales
+    checar la semantica estatica de cada construcción.
+    Verificar la existencia de errores semanticos.
+
+sim no terminales
+  Identificador 
+  Letras 
+  Digito
+  Sim_inicial  // _ letra
+  Sim_no_inicial
+
+Terminales
+  0...9
+  A...Z
+  a...z
+
+Producciones
+  Identificador -> Simbolo_inicial Sim_no_inicial
+  Sim_inicia -> _
+  Sim_inicia -> Letra
+  Sim_no_inicial -> Sim_no_inicial Sim_no_inicial
+  Sim_no_inicial -> Letras
+  Sim_no_inicial -> Digitos
+  Sim_no_inicial -> _
+  Letras -> A | ... | Z | a | ... | z
+  Digitos -> 0 | 1 | ... | 9 |
+
+  Entrada: _Juan1
+
+ 
+
+                    Identificador
+                |                    |
+  Simbolo_inicial                    Sim_no_inicial
+       |                             |             |
+       -                Sim_no_inicial             Sim_no_inicial
+                        |          |               |            |
+                      Letra        Letra    Sim_no_inicial    Sim_no_inicial
+                        |            |       |          |            |         
+                        J            u     Letra      Letra         Numero      
+                                            |            |            |  
+                                            a            n            1
+
+
+Analisis sintatico o gramatical
+
+"int" x;
+x = 32.5;
+
+(tipo,"int")
+(id,"X")
+(punt,";")
+(id,"x")
+(op,"=")
+(num,"32.5")
+
+
+ ///////////////////////Tarea hacer la gramatica de una oracion
+
+
+Entrada: 454
+Num -> Num Num -> Digit Num -> 4 Num -> 4 Num Num -> 4 Digit Num -> 4 5 Num -> 4 5 Digit -> 454
+
+G = { Vn, Vt,s, o/}
+
+G = { Vn = {Num, Digit} Tt = { 0........9}
+      S = Num, o/ = { Num -> Digit | Num Num
+                      Digit -> 1....9 }
+    }
+
+
+Gramática sin restricciones.      Gramática de tipo 0
+
+alfa -> beta    ||    alfa != beta
+
+£ = "cadena vacia"
+G = { VNT={S,A,B,C,D,E} VT={a,b,c} S=S}
+
+\0=   1) S -> ACaB
+      2) Ca -> aaC      We = aa
+      3) CB -> DB       cadenas = "S"
+      4) CB -> E                = "ACaB"
+      5) aD -> Da               = "AaaCB"
+      6) AD -> AC               = "AaaE"
+      7) aE -> Ea               = "AaEa"
+      8) AE -> £                = "AEaa"
+                                = "aa"
+
+
+Gramática Sensitiva al Contexto.     Gramática de tipo 1
+El tamaño de alfa tiene que ser del mismo o menor tamaño que beta.
+
+
+alfa -> beta    ||    |alfa| <= |beta|
+
+L(G) = {a^n b^n c^n | n >= 1}
+
+G = ({S,B,C},{a,b,c},S,¢)
+
+a) S -> aSBC      entrada: a^3 b^3 c^3
+b) S -> abC       cadena = "S"
+c) bB -> BB              = "aSBC"
+d) bC -> bc              = "aaSBCBC"
+e) CB -> BC              = "aaabCBCBC"
+f) cC -> cc              = "aaabCBCBC"
+                         = ""
+                         = ""
+
+
+Gramática Libre de Contexto.           Gramática de tipo 2
+  contiene solo producciones de la forma alfa -> beta donde |alfa| <= |beta|
+
+L(G) = {a^n ba^n | n >= 1}
+G = { VN = {S,C} VT = {a,b}, S=S, \o = S -> aCa}
+                                     = C -> aCa
+                                     = C -> b
+
+W=aba      c = "S"
+             = "aCa"
+             = "aba"
+
+
+
+
+Gramática Regular      Gramática de tipo 3
+  Contiene solo produccioes de la forma alfa -> beta, donde |alfa| <= |beta|
+  
+  alfa -> beta        |alfa| <= |beta|      beta = aB      beta = a
+
+L(G) = {a^n ba^m | n , m >= 1}   
+
+G = { VN = {S, B, C} VT = { a, b}, S = S }
+
+\o  = S -> aS            W = abaaa
+    = S -> aB            Cadena = "S"
+    = B -> bC                   = "aB"
+    = C -> aC                   = "abC"
+    = C -> a                    = "abaC"
+                                = "abaaC"
+                                = "abaaa"
+
+
+
+  
+Operaciones con las gramaticas
+
+L (G) = { a^n ba^n | n = par}
+
+S -> aaSaa
+S -> aaBaa
+B -> b
+
+Expresiones regulares 
+Una expresion regular (E,R) es una formula para denotar "ciertos" lenguajes. Una expresion regular se construye a partir de expresiones regulares mas simples
+
+
+Ejemplo.
+ Sea el alfabeto: E = {x, y, z}
+
+ a) x | y | z designa el conjunto {x, y, z}.
+ b) (xy | z) designa el conjunto {xy, z}.
+ c) x (y | z) designa el conjunto {xy, xz}.
+ d) x | (yz) * designa el conjunto {x, \0, yz, yzyz, yzyzyz...}
+ e) (x | y | z)* x  designa el conjunto de todas las cadenas que contienen cero o mas x, y ó z seguidas de una x.
+ f) (x* | y*) designa el conjunto {\0, x, xx, xxx, ... y, yy, yyy, ...}
+
+
+Abreviaturas en la Notacion.
+Existen algunas construcciones comunes en una expresion regular, por lo que se entriducen algunas abreviaturas para representarlas.
+
+L(G) = { a^n ba^m | n, m >= 1}
+          |
+         a^+ ba^+   <- delimita del 1 a x numero.
+
+
+
+
+
+S -> aS      w = "S"            a^+ b a^+
+S -> aB        = "aS"
+B -> bC        = "aaS"
+C -> aC        = "aaaS"
+C -> a         = "aaaaB"  
+               = ".........."
+
+Ejemplo: Dada la siguiente gramática regular convertirla a su equivalente expresión regular.
+
+S -> aS      
+S -> aB       
+B -> bC       
+C -> aC       
+C -> a        
+
+paso 1:
+S -> aS | aB
+B -> bC
+C -> aC | a
+
+paso 2:
+i = 1     S = aS | aB    x1 = S    a1=a    y1 = aB    S = {a} aB
+j = 2     B -> bC        No Sustituye
+j = 3     C -> aC | a    No Sustituye
+
+i = 2     B->bC          x2 = B    a2 = \o    y1 = \o     No Reduce     B = bC
+j = 3     C -> aC | a    No Sustituye
+
+paso 3:
+i = 3     C -> aC | a    X3 = C    a3 = a    y3 = a       Reduce    C = {a}a
+j = 2     B -> bC    Si Sustituye    B = b{a}a
+j = 1     S = {a} aB    No Sustituye
+
+i = 2     B -> b {a} a   x2 = B    a = \o    y1 = \o    No Reduce     B = b {a} a
+j = 1     S = {a} aB      Si Sustituye    {a}ab{a}a
+
+
+
+X = {a} Y
+paso 2    i = 1 to n-1
+          j = i + 1 to n
+
+paso 3    i = n to 2
+          j = i - 1 to 1
+
+
+ejercicio 1:
+S -> aA
+S -> a
+A -> aA
+A -> bB
+A -> a
+B -> bB
+B -> c
+
+Paso 1:
+1  S -> aA | a
+2  A -> aA | bB
+3  B -> bB | c
+
+paso 2:
+i = 1    S -> aA | a    X1 = S    a1 = \o    Y1 = aA | a    No reduce    S = aA | a
+j = 2    No sustituye S en 2
+j = 3    No sustituye S en 3
+
+i = 2    A -> aA | bB | a    X2 = A    a2 = a    Y2 = bB | a    reduce    A = {a} (bB | a)
+j = 3    No sustituye A en 3
+
+paso 3:
+i = 3    B -> bB | c    X3 = B    a3 = b    Y3 = c    reduce    B -> {b} c
+j = 2    A -> aA | bB    Si sustituye B en 2    A = {a} ( b( {b}c ) | a)
+j = 1    S -> aA | a      No sustituye B en 1   
+
+i = 2    A -> {a}(b({b}c)|a)    X2 = A    a2 = \o    Y = \o    No sustituye
+j = 1    S -> aA | a    Si sustituye A en 1    S = a({ a }( b ( {b} c ) | a ) ) | a
+
+                                                   a{a}b{b}c | aa | a
+ER = a^+ b^+ c | aa | a
+
+
+
+Ejercicio 2:
+S -> aA
+A -> aA
+A -> aB
+B -> bC
+C -> cB
+C -> c
+
+C->cB|c como se sustituye en B->bC
+
+S = a({a}(a(b({cb}c|c))))
