@@ -1,0 +1,23 @@
+Asuma que la unidad de memoria de la figura 8-14 tiene 35,536 palabras de 8 bits cada una, y no solamente
+256 x 8. 
+(a) ¿Cuál debería ser el número de bits de los cinco primeros registros listados en la Tabla 8-4? 
+(b) ¿Cuántas palabras de memoria se requieren para almacenar la instrucción: LDA ADR? Siga el formato de la dirección directa.
+(c) Liste la secuencia de microoperaciones necesarias para ejecutar la instrucción. El registro R puede ser usado para almacenar temporalmente parte de una dirección.
+Tabla 8-4 Lista de registros para un computador sencillo {
+Simbolo | N° de bits | Nombre de registro               | Funcion
+  MAR   |    8       | Registro de direccion de memoria | Almacena direcciones de memoria
+  MBR   |    8       | Registro separador de memoria    | Almacena contenidos de palabras de memoria
+   A    |    8       | Registro A                       | Registro procesador
+   R    |    8       | Registro R                       | Registro procesador
+   PC   |    8       | Contador de programa             | Almacena la direccion de instruccion
+   IR   |    8       | Registro de instruccion          | Almacena codigos de operacion corrientes
+   T    |    3       | Contador de tiempo               | Generador de secuencias
+}
+
+Figura 8-14 Diagrama de bloque de un computador simple {
+PC MAR IR-->Decodificador de operaciones
+             |-------------|q1  |q2  |q3
+             |t7---------------------|t0 
+            Decodificador de tiempo<-- T
+Unidad de memoria 256*8    MBR    A    R
+}
